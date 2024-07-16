@@ -7,6 +7,7 @@ import { currentUser, auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
+
 export const upsertUserProgress = async (courseId: number) => {
   const { userId } = auth();
   const user = await currentUser();
@@ -24,8 +25,6 @@ export const upsertUserProgress = async (courseId: number) => {
 
   const existingUserProgress = await getUserProgress();
 
-  
-
   if (existingUserProgress) {
     await db.update(userProgress).set({
       activeCourseId: courseId,
@@ -37,10 +36,8 @@ export const upsertUserProgress = async (courseId: number) => {
       revalidatePath("/learn");
       redirect("/learn");
     } catch (error) {
-      redirect("/");
+      console.log(error);
     }
-
- 
   }
 
   await db.insert(userProgress).values({

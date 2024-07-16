@@ -5,7 +5,23 @@ import UserProgress from "@/components/user-progress";
 import { getUserProgress } from "@/db/queries";
 import { redirect } from "next/navigation";
 
-const LearnPage = async () => {
+type Props = {
+  title: string;
+  id: number;
+  imageSrc: string;
+  onClick: (id: number) => void;
+  disabled?: boolean;
+  active?: boolean;
+};
+
+const LearnPage = async ({
+  title,
+  id,
+  imageSrc,
+  onClick,
+  disabled,
+  active,
+}: Props) => {
   const userProgressPromise = getUserProgress();
 
   const [userProgress] = await Promise.all([userProgressPromise]);
@@ -24,7 +40,7 @@ const LearnPage = async () => {
       </FeedWrapper>
       <StickyWrapper>
         <UserProgress
-          activeCourse={{ title: "Spanish", imageSrc: "/es.svg" }}
+          activeCourse={{ title, imageSrc }}
           hearts={5}
           points={100}
           hasActiveSubscription={false}

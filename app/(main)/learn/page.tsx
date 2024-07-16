@@ -4,24 +4,12 @@ import Header from "./header";
 import UserProgress from "@/components/user-progress";
 import { getUserProgress } from "@/db/queries";
 import { redirect } from "next/navigation";
+import { courses } from "@/db/schema";
 
-type Props = {
-  title: string;
-  id: number;
-  imageSrc: string;
-  onClick: (id: number) => void;
-  disabled?: boolean;
-  active?: boolean;
-};
 
-const LearnPage = async ({
-  title,
-  id,
-  imageSrc,
-  onClick,
-  disabled,
-  active,
-}: Props) => {
+
+const LearnPage = async () => {
+
   const userProgressPromise = getUserProgress();
 
   const [userProgress] = await Promise.all([userProgressPromise]);
@@ -40,9 +28,9 @@ const LearnPage = async ({
       </FeedWrapper>
       <StickyWrapper>
         <UserProgress
-          activeCourse={{ title, imageSrc }}
-          hearts={5}
-          points={100}
+          activeCourse={userProgress.activeCourse}
+          hearts={userProgress.hearts}
+          points={userProgress.points}
           hasActiveSubscription={false}
         ></UserProgress>
       </StickyWrapper>
